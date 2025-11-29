@@ -100,8 +100,39 @@ with col1:
     # Cinsiyet (0: Kadın, 1: Erkek) - Veri setine göre
     sex = st.radio("Cinsiyet", options=[0, 1], format_func=lambda x: "Kadın" if x==0 else "Erkek")
     
-    education = st.slider("Eğitim Seviyesi (1-6)", 1, 6, 4)
-    income = st.slider("Gelir Seviyesi (1-8)", 1, 8, 5)
+    # Eğitim seviyesi açıklamalı
+    education_labels = {
+        1: "1 - İlkokul Mezunu Değil",
+        2: "2 - İlkokul Mezunu", 
+        3: "3 - Ortaokul Mezunu",
+        4: "4 - Lise Mezunu",
+        5: "5 - Üniversite (Bir Kısım)",
+        6: "6 - Üniversite Mezunu"
+    }
+    education = st.select_slider(
+        "🎓 Eğitim Seviyesi",
+        options=list(education_labels.keys()),
+        value=4,
+        format_func=lambda x: education_labels[x]
+    )
+    
+    # Gelir seviyesi açıklamalı
+    income_labels = {
+        1: "1 - 10.000₺'den az",
+        2: "2 - 10.000₺ - 15.000₺",
+        3: "3 - 15.000₺ - 20.000₺",
+        4: "4 - 20.000₺ - 25.000₺",
+        5: "5 - 25.000₺ - 35.000₺",
+        6: "6 - 35.000₺ - 50.000₺",
+        7: "7 - 50.000₺ - 75.000₺",
+        8: "8 - 75.000₺ ve üzeri"
+    }
+    income = st.select_slider(
+        "💰 Aylık Gelir Seviyesi",
+        options=list(income_labels.keys()),
+        value=5,
+        format_func=lambda x: income_labels[x]
+    )
 
 with col2:
     st.subheader("🩺 Sağlık Verileri")
