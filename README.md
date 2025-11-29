@@ -94,14 +94,17 @@ DiabetRiskAnalyze/
 │   ├── diabetes_binary_5050split_health_indicators_BRFSS2015.csv
 │   └── diabetes_binary_health_indicators_BRFSS2015.csv
 │
-├── indir.png                       # Veri dağılımı grafiği
-├── indir (1).png                   # Korelasyon matrisi
-├── indir (2).png                   # Confusion matrix
-├── indir (3).png                   # Ek görsel
-├── indir (4).png                   # Ek görsel
+├── images/                         # Görsel dosyaları
+│   ├── diabetes_distribution.png  # Veri dağılımı
+│   ├── correlation_matrix.png     # Korelasyon matrisi
+│   ├── confusion_matrix.png       # Confusion matrix
+│   ├── model_metrics_1.png        # Model metrikleri
+│   └── model_metrics_2.png        # Model metrikleri
 │
-├── kaggle_dataset_download.ipynb   # Veri indirme notebook
-└── ML Bootcamp Final Proje.pdf     # Proje raporu
+├── docs/                           # Dokümantasyon
+│   └── ML Bootcamp Final Proje.pdf
+│
+└── kaggle_dataset_download.ipynb   # Veri indirme notebook
 ```
 
 ## 🎨 Uygulama Ekran Görüntüleri

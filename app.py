@@ -54,28 +54,28 @@ tab1, tab2, tab3, tab4 = st.tabs(["📊 Veri Dağılımı", "🔥 Korelasyon Ana
 
 with tab1:
     try:
-        st.image("indir.png", caption="Hedef Değişken Dağılımı (0: Yok, 1: Var)", use_container_width=True)
+        st.image("images/diabetes_distribution.png", caption="Hedef Değişken Dağılımı (0: Yok, 1: Var)", use_container_width=True)
     except:
-        st.warning("indir.png dosyası bulunamadı")
+        st.warning("Veri dağılımı görseli bulunamadı")
 
 with tab2:
     try:
-        st.image("indir (1).png", caption="Değişkenler Arası Korelasyon Matrisi", use_container_width=True)
+        st.image("images/correlation_matrix.png", caption="Değişkenler Arası Korelasyon Matrisi", use_container_width=True)
     except:
-        st.warning("indir (1).png dosyası bulunamadı")
+        st.warning("Korelasyon matrisi görseli bulunamadı")
 
 with tab3:
     try:
-        st.image("indir (2).png", caption="Model Confusion Matrix", use_container_width=True)
+        st.image("images/confusion_matrix.png", caption="Model Confusion Matrix", use_container_width=True)
         col_a, col_b = st.columns(2)
         with col_a:
             try:
-                st.image("indir (3).png", use_container_width=True)
+                st.image("images/model_metrics_1.png", use_container_width=True)
             except:
                 pass
         with col_b:
             try:
-                st.image("indir (4).png", use_container_width=True)
+                st.image("images/model_metrics_2.png", use_container_width=True)
             except:
                 pass
     except:
