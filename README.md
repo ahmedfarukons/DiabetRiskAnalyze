@@ -1,4 +1,19 @@
-# 🏥 Diyabet Risk Analizi - ML Bootcamp Final Projesi
+<div align="center">
+
+# 🎓 Zero2End ML Bootcamp - Final Projesi
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.51-red.svg)](https://streamlit.io/)
+[![LightGBM](https://img.shields.io/badge/LightGBM-4.6-green.svg)](https://lightgbm.readthedocs.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> 🚀 **Bu proje, Zero2End Machine Learning Bootcamp'i kapsamında final projesi olarak geliştirilmiştir.**
+
+</div>
+
+---
+
+# 🏥 Diyabet Risk Analizi Uygulaması
 
 ## 📋 Proje Hakkında
 
