@@ -22,17 +22,17 @@
 
 ---
 
-## Resources / Kaynaklar
+## Kaynaklar
 
-| Resource | Link |
-|----------|------|
-| YouTube Demo | [Project Video](https://youtu.be/aPoPtTuUD54) |
-| Medium Article | [Diabetes Risk Prediction](https://medium.com/@oahmedfaruk/diyabet-risk-tahmini-24bfa8c5e74b) |
-| Presentation | [ML Bootcamp Final Project.pdf](docs/ML%20Bootcamp%20Final%20Proje.pdf) |
+| Kaynak | Link |
+|--------|------|
+| YouTube | [Proje Videosu](https://youtu.be/aPoPtTuUD54) |
+| Medium | [Diyabet Risk Tahmini](https://medium.com/@oahmedfaruk/diyabet-risk-tahmini-24bfa8c5e74b) |
+| Sunum | [ML Bootcamp Final Proje.pdf](docs/ML%20Bootcamp%20Final%20Proje.pdf) |
 
 ---
 
-# English
+# EN
 
 ## Diabetes Risk Analysis Application
 
@@ -51,30 +51,14 @@ A web application that predicts diabetes risk using machine learning. The model,
 
 ### Installation
 
-#### Requirements
-- Python 3.8+
-- MongoDB (for monitoring system)
-
-#### Steps
-
 ```bash
-# Clone repository
 git clone https://github.com/ahmedfarukons/DiabetRiskAnalyze.git
 cd DiabetRiskAnalyze
-
-# Create and activate virtual environment
 python -m venv .venv
 .venv\Scripts\activate  # Windows
-source .venv/bin/activate  # Linux/Mac
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Run application
 streamlit run app.py
 ```
-
-Browser will open at `http://localhost:8501`
 
 ### Model Performance
 
@@ -82,15 +66,11 @@ Browser will open at `http://localhost:8501`
 |--------|-------|
 | Accuracy | ~86% |
 | F1 Score | ~0.85 |
-| Algorithm | LightGBM Classifier |
-
-### Dataset
-
-**BRFSS 2015** - 253,680 survey responses with 21 health indicators.
+| Algorithm | LightGBM |
 
 ---
 
-# Türkçe
+# TR
 
 ## Diyabet Risk Analizi Uygulaması
 
@@ -109,30 +89,14 @@ Makine öğrenmesi kullanarak diyabet riskini tahmin eden bir web uygulaması. L
 
 ### Kurulum
 
-#### Gereksinimler
-- Python 3.8+
-- MongoDB (monitoring sistemi için)
-
-#### Adımlar
-
 ```bash
-# Repository'yi klonla
 git clone https://github.com/ahmedfarukons/DiabetRiskAnalyze.git
 cd DiabetRiskAnalyze
-
-# Virtual environment oluştur ve aktif et
 python -m venv .venv
 .venv\Scripts\activate  # Windows
-source .venv/bin/activate  # Linux/Mac
-
-# Bağımlılıkları yükle
 pip install -r requirements.txt
-
-# Uygulamayı başlat
 streamlit run app.py
 ```
-
-Tarayıcı otomatik olarak `http://localhost:8501` adresinde açılacaktır.
 
 ### Model Performansı
 
@@ -140,22 +104,18 @@ Tarayıcı otomatik olarak `http://localhost:8501` adresinde açılacaktır.
 |--------|-------|
 | Doğruluk | ~%86 |
 | F1 Skoru | ~0.85 |
-| Algoritma | LightGBM Classifier |
-
-### Veri Seti
-
-**BRFSS 2015** - 21 sağlık göstergesi içeren 253,680 anket yanıtı.
+| Algoritma | LightGBM |
 
 ---
 
-## Monitoring System / Monitoring Sistemi
+## Monitoring Sistemi
 
-MongoDB-based monitoring system for tracking predictions:
+MongoDB tabanlı tahmin takip sistemi:
 
-- Prediction logging / Tahmin loglama
-- Alert dashboard for high-risk (>60%) / Yüksek risk için alert dashboard
-- Daily/weekly statistics / Günlük/haftalık istatistikler
-- Risk distribution visualization / Risk dağılımı görselleştirmesi
+- Tahmin loglama
+- Yüksek risk (>%60) için alert dashboard
+- Günlük/haftalık istatistikler
+- Risk dağılımı görselleştirmesi
 
 ```javascript
 {
@@ -170,46 +130,44 @@ MongoDB-based monitoring system for tracking predictions:
 
 ---
 
-## Project Structure / Proje Yapısı
+## Proje Yapısı
 
 ```
 DiabetRiskAnalyze/
-├── app.py                    # Streamlit application
-├── database.py               # MongoDB module
-├── diabetes_model.pkl        # Trained model
-├── feature_names.pkl         # Feature names
-├── requirements.txt          # Dependencies
-├── README.md                 # Documentation
-├── archive/                  # Datasets
-├── images/                   # Visual assets
-└── docs/                     # Documentation files
+├── app.py                    # Streamlit uygulaması
+├── database.py               # MongoDB modülü
+├── diabetes_model.pkl        # Eğitilmiş model
+├── feature_names.pkl         # Feature isimleri
+├── requirements.txt          # Bağımlılıklar
+├── README.md                 # Dokümantasyon
+├── archive/                  # Veri setleri
+├── images/                   # Görseller
+└── docs/                     # Dokümanlar
 ```
 
 ---
 
-## Technologies / Teknolojiler
+## Teknolojiler
 
 Python, Streamlit, LightGBM, MongoDB, PyMongo, Scikit-learn, Pandas, NumPy
 
 ---
 
-## Developer / Geliştirici
+## Geliştirici
 
 **Ahmed Faruk**
 - GitHub: [@ahmedfarukons](https://github.com/ahmedfarukons)
 - Medium: [@oahmedfaruk](https://medium.com/@oahmedfaruk)
 
-## Acknowledgements / Teşekkürler
+## Teşekkürler
 
-- Kaggle - Dataset / Veri seti
-- BRFSS - Survey data / Anket verileri
-- Zero2End Bootcamp Team / Zero2End Bootcamp Ekibi
+- Kaggle - Veri seti
+- BRFSS - Anket verileri
+- Zero2End Bootcamp Ekibi
 
 ---
 
 <div align="center">
-
-If you liked this project, don't forget to give it a star!
 
 Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
 
