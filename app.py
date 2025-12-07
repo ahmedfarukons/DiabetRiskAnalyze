@@ -49,7 +49,7 @@ except Exception as e:
     st.stop()
 
 # --- BAŞLIK ---
-st.title("🏥 Yapay Zeka Destekli Diyabet Risk Tahmini")
+st.title("🏥 Diyabet Risk Tahmini")
 st.markdown("Makine Öğrenmesi (LightGBM) kullanarak diyabet riskinizi saniyeler içinde analiz edin.")
 st.markdown("---")
 
