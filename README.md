@@ -210,20 +210,7 @@ Model tahminleri kullanıcıya şu şekilde sunuluyor:
 
 ---
 
-# EN
-
-## Diabetes Risk Analysis Application
-
-A web application that predicts diabetes risk using machine learning. The model, trained with LightGBM algorithm, analyzes users' health data to predict diabetes risk.
-
-### Features
-
-- **LightGBM Model**: High-performance gradient boosting (~86% accuracy)
-- **Interactive Dashboard**: Streamlit-based user interface
-- **Real-time Prediction**: Instant risk analysis
-- **Monitoring System**: MongoDB-based prediction logging and alerts
-
-### Quick Start
+## Kurulum
 
 ```bash
 git clone https://github.com/ahmedfarukons/DiabetRiskAnalyze.git
@@ -232,29 +219,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
----
-
-# TR
-
-## Diyabet Risk Analizi Uygulaması
-
-Makine öğrenmesi ile diyabet riskini tahmin eden web uygulaması. LightGBM algoritması ile eğitilmiş model, kullanıcıların sağlık verilerini analiz ederek risk tahmini yapar.
-
-### Özellikler
-
-- **LightGBM Modeli**: Yüksek performanslı gradient boosting (~%86 doğruluk)
-- **İnteraktif Dashboard**: Streamlit tabanlı kullanıcı arayüzü
-- **Anlık Tahmin**: Gerçek zamanlı risk analizi
-- **Monitoring Sistemi**: MongoDB tabanlı tahmin loglama ve alertler
-
-### Hızlı Başlangıç
-
-```bash
-git clone https://github.com/ahmedfarukons/DiabetRiskAnalyze.git
-cd DiabetRiskAnalyze
-pip install -r requirements.txt
-streamlit run app.py
-```
+Tarayıcı otomatik olarak `http://localhost:8501` adresinde açılacaktır.
 
 ---
 
