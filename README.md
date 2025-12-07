@@ -1,53 +1,67 @@
 <div align="center">
 
-# 🎓 Zero2End ML Bootcamp - Final Projesi
+# Zero2End ML Bootcamp - Final Project
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.51-red.svg)](https://streamlit.io/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.6-green.svg)](https://lightgbm.readthedocs.io/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7.0-green.svg)](https://www.mongodb.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> 🚀 **Bu proje, Zero2End Machine Learning Bootcamp'i kapsamında final projesi olarak geliştirilmiştir.**
+**This project was developed as a final project for the Zero2End Machine Learning Bootcamp.**
 
 </div>
 
 ---
 
-# 🏥 Diyabet Risk Analizi Uygulaması
+## Demo & Resources
 
-## 📋 Proje Hakkında
+| Resource | Link |
+|----------|------|
+| YouTube Demo | [Project Introduction Video](https://youtu.be/aPoPtTuUD54) |
+| Medium Article | [Diabetes Risk Prediction](https://medium.com/@oahmedfaruk/diyabet-risk-tahmini-24bfa8c5e74b) |
+| Presentation | [ML Bootcamp Final Project.pdf](docs/ML%20Bootcamp%20Final%20Proje.pdf) |
 
-Bu proje, makine öğrenmesi kullanarak diyabet riskini tahmin eden bir web uygulamasıdır. LightGBM algoritması ile eğitilmiş model, kullanıcıların sağlık verilerini analiz ederek diyabet riski taşıyıp taşımadıklarını tahmin eder.
+---
 
-## 🎯 Özellikler
+# Diabetes Risk Analysis Application
 
-- 🤖 **LightGBM Modeli**: Yüksek performanslı gradient boosting algoritması
-- 📊 **İnteraktif Dashboard**: Streamlit ile geliştirilmiş kullanıcı dostu arayüz
-- 📈 **Veri Görselleştirme**: Korelasyon matrisi, confusion matrix ve veri dağılımı grafikleri
-- 🔍 **Anlık Tahmin**: Kullanıcı verilerine göre gerçek zamanlı risk analizi
-- 📱 **Responsive Tasarım**: Her cihazda mükemmel görünüm
+## About
 
-## 🚀 Kurulum
+A web application that predicts diabetes risk using machine learning. The model, trained with LightGBM algorithm, analyzes users' health data to predict whether they are at risk for diabetes.
 
-### Gereksinimler
+## Features
+
+- **LightGBM Model**: High-performance gradient boosting algorithm
+- **Interactive Dashboard**: User-friendly interface developed with Streamlit
+- **Data Visualization**: Correlation matrix, confusion matrix, and data distribution charts
+- **Real-time Prediction**: Instant risk analysis based on user data
+- **Responsive Design**: Optimized for all devices
+- **Monitoring System**: Prediction logging and alert dashboard with MongoDB
+- **Real-time Alerts**: Instant notifications for high-risk predictions
+
+## Installation
+
+### Requirements
 
 - Python 3.8+
 - pip
+- MongoDB (for monitoring system)
 
-### Adımlar
+### Steps
 
-1. **Repository'yi klonlayın:**
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/ahmedfarukons/DiabetRiskAnalyze.git
 cd DiabetRiskAnalyze
 ```
 
-2. **Virtual environment oluşturun:**
+2. **Create virtual environment:**
 ```bash
 python -m venv .venv
 ```
 
-3. **Virtual environment'ı aktif edin:**
+3. **Activate virtual environment:**
 
 Windows:
 ```bash
@@ -59,122 +73,131 @@ Linux/Mac:
 source .venv/bin/activate
 ```
 
-4. **Gerekli kütüphaneleri yükleyin:**
+4. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-5. **Uygulamayı başlatın:**
+5. **Start MongoDB (for monitoring):**
+```bash
+# Make sure MongoDB service is running
+# Default connection: mongodb://localhost:27017/
+```
+
+6. **Run the application:**
 ```bash
 streamlit run app.py
 ```
 
-6. Tarayıcınızda otomatik olarak `http://localhost:8501` adresi açılacaktır.
+7. Browser will automatically open at `http://localhost:8501`
 
-## 📊 Veri Seti
+## Dataset
 
-Proje, **BRFSS (Behavioral Risk Factor Surveillance System) 2015** veri setini kullanmaktadır. Bu veri seti şu özellikleri içerir:
+The project uses the **BRFSS (Behavioral Risk Factor Surveillance System) 2015** dataset:
 
-- 21 sağlık göstergesi
-- 253,680 anket yanıtı
-- Dengeli veri dağılımı (50-50 split)
+- 21 health indicators
+- 253,680 survey responses
+- Balanced data distribution (50-50 split)
 
-### Özellikler
+### Features
 
-- **Demografik**: Yaş, cinsiyet, eğitim, gelir
-- **Sağlık Durumu**: BMI, genel sağlık, mental/fiziksel sağlık
-- **Risk Faktörleri**: Yüksek tansiyon, kolesterol, sigara, kalp hastalığı
-- **Yaşam Tarzı**: Fiziksel aktivite, meyve/sebze tüketimi, alkol kullanımı
+- **Demographic**: Age, gender, education, income
+- **Health Status**: BMI, general health, mental/physical health
+- **Risk Factors**: High blood pressure, cholesterol, smoking, heart disease
+- **Lifestyle**: Physical activity, fruit/vegetable consumption, alcohol use
 
-## 🧠 Model Performansı
+## Model Performance
 
-- **Doğruluk (Accuracy)**: ~86%
-- **F1 Score**: ~0.85
-- **Algoritma**: LightGBM Classifier
-- **Feature Engineering**: Risk_Factor, Age_GenHlth
+| Metric | Value |
+|--------|-------|
+| Accuracy | ~86% |
+| F1 Score | ~0.85 |
+| Algorithm | LightGBM Classifier |
+| Feature Engineering | Risk_Factor, Age_GenHlth |
 
-## 📁 Proje Yapısı
+## Monitoring System
+
+The project includes a MongoDB-based monitoring system:
+
+- **Prediction Logging**: Every prediction is automatically saved to database
+- **Alert Dashboard**: High-risk predictions (>60%) are tracked in real-time
+- **Statistics**: Daily/weekly/total alert counts
+- **Risk Distribution**: Low/Medium/High risk visualization
+- **Trend Analysis**: Last 7 days alert chart
+
+### Database Schema
+```javascript
+{
+  "prediction_id": "uuid",
+  "timestamp": "datetime",
+  "input_features": { "BMI": 25, "Age": 5, ... },
+  "risk_score": 0.72,
+  "risk_level": "high",
+  "is_alert": true
+}
+```
+
+## Project Structure
 
 ```
 DiabetRiskAnalyze/
-│
-├── app.py                          # Streamlit uygulaması
-├── diabetes_model.pkl              # Eğitilmiş model
-├── feature_names.pkl               # Feature isimleri
-├── requirements.txt                # Python bağımlılıkları
-├── README.md                       # Proje dokümantasyonu
-│
-├── archive/                        # Veri setleri
-│   ├── diabetes_012_health_indicators_BRFSS2015.csv
-│   ├── diabetes_binary_5050split_health_indicators_BRFSS2015.csv
-│   └── diabetes_binary_health_indicators_BRFSS2015.csv
-│
-├── images/                         # Görsel dosyaları
-│   ├── diabetes_distribution.png  # Veri dağılımı
-│   ├── correlation_matrix.png     # Korelasyon matrisi
-│   ├── confusion_matrix.png       # Confusion matrix
-│   ├── model_metrics_1.png        # Model metrikleri
-│   └── model_metrics_2.png        # Model metrikleri
-│
-├── docs/                           # Dokümantasyon
-│   └── ML Bootcamp Final Proje.pdf
-│
-└── kaggle_dataset_download.ipynb   # Veri indirme notebook
+├── app.py                    # Streamlit application
+├── database.py               # MongoDB connection module
+├── diabetes_model.pkl        # Trained model
+├── feature_names.pkl         # Feature names
+├── requirements.txt          # Python dependencies
+├── README.md                 # Documentation
+├── archive/                  # Datasets
+├── images/                   # Visual assets
+├── docs/                     # Documentation files
+└── kaggle_dataset_download.ipynb
 ```
 
-## 🎨 Uygulama Ekran Görüntüleri
+## Application Tabs
 
-### Ana Sayfa
-- Diyabet Risk Tahmini formu
-- Kişisel bilgiler (yaş, cinsiyet, eğitim, gelir)
-- Sağlık verileri (BMI, genel sağlık durumu)
-- Risk faktörleri (tansiyon, kolesterol, sigara)
+| Tab | Description |
+|-----|-------------|
+| Prediction | Risk analysis form and results |
+| Data Analysis | Target variable distribution and correlation analysis |
+| Model Performance | Confusion matrix, ROC curve, and metrics |
+| Alert Monitoring | Real-time high-risk tracking dashboard |
 
-### Veri Analizi Sekmeleri
-1. **📊 Veri Dağılımı**: Hedef değişkenin dağılımı
-2. **🔥 Korelasyon Analizi**: Değişkenler arası ilişkiler
-3. **📈 Model Performansı**: Confusion matrix ve metrikler
-4. **🔍 Tahmin Yap**: Risk analiz formu
+## Usage
 
-## 💡 Kullanım
+1. Go to the **"Prediction"** tab
+2. Fill in all form fields (personal info, health data, risk factors)
+3. Click **"START RISK ANALYSIS"** button
+4. View your results
+5. Track all predictions from **"Alert Monitoring"** tab
 
-1. Uygulamayı başlattıktan sonra **"🔍 Tahmin Yap"** sekmesine gidin
-2. Formdaki tüm alanları doldurun:
-   - Kişisel bilgileriniz
-   - Sağlık verileriniz
-   - Risk faktörleriniz
-3. **"RİSK ANALİZİNİ BAŞLAT"** butonuna tıklayın
-4. Sonuçlarınızı görüntüleyin
+**Important**: This application is for informational purposes only and does not replace medical diagnosis.
 
-⚠️ **Önemli**: Bu uygulama sadece bilgilendirme amaçlıdır ve tıbbi teşhis yerine geçmez.
+## Technologies
 
-## 🛠️ Teknolojiler
+- Python 3.13
+- Streamlit (Web interface)
+- LightGBM (ML model)
+- MongoDB (Prediction logging)
+- PyMongo (MongoDB driver)
+- Scikit-learn (Model evaluation)
+- Pandas, NumPy, Joblib
 
-- **Python 3.13**
-- **Streamlit**: Web arayüzü
-- **LightGBM**: Makine öğrenmesi modeli
-- **Scikit-learn**: Model değerlendirme ve preprocessing
-- **Pandas**: Veri manipülasyonu
-- **NumPy**: Sayısal işlemler
-- **Joblib**: Model serileştirme
+## License
 
-## 📝 Lisans
+This project was developed for educational purposes.
 
-Bu proje eğitim amaçlı geliştirilmiştir.
-
-## 👨‍💻 Geliştirici
+## Developer
 
 **Ahmed Faruk**
 - GitHub: [@ahmedfarukons](https://github.com/ahmedfarukons)
-- Repository: [DiabetRiskAnalyze](https://github.com/ahmedfarukons/DiabetRiskAnalyze)
+- Medium: [@oahmedfaruk](https://medium.com/@oahmedfaruk)
 
-## 🙏 Teşekkürler
+## Acknowledgements
 
-- Kaggle - Veri seti için
-- BRFSS - Anket verileri için
-- ML Bootcamp - Eğitim ve mentorluk için
+- Kaggle - For the dataset
+- BRFSS - For survey data
+- Zero2End Bootcamp Team - For training and mentorship
 
 ---
 
-⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
-
+If you liked this project, don't forget to give it a star!

@@ -3,6 +3,10 @@ import pandas as pd
 import joblib
 import numpy as np
 import lightgbm  # LightGBM modelini yükleyebilmek için gerekli
+from datetime import datetime
+
+# Monitoring Database
+import database as db
 
 # --- SAYFA AYARLARI ---
 st.set_page_config(page_title="Diyabet Risk Analizi", layout="wide", page_icon="🏥")
@@ -50,7 +54,7 @@ st.markdown("Makine Öğrenmesi (LightGBM) kullanarak diyabet riskinizi saniyele
 st.markdown("---")
 
 # --- GÖRSELLERİ GÖSTER ---
-tab1, tab2, tab3 = st.tabs(["🔍 Tahmin Yap", "📊 Veri Analizi", "📈 Model Performansı"])
+tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tahmin Yap", "📊 Veri Analizi", "📈 Model Performansı", "🚨 Alert Monitoring"])
 
 with tab1:
     st.markdown("### 🔬 Diyabet Risk Analizi Formu")
@@ -100,39 +104,11 @@ with col1:
     # Cinsiyet (0: Kadın, 1: Erkek) - Veri setine göre
     sex = st.radio("Cinsiyet", options=[0, 1], format_func=lambda x: "Kadın" if x==0 else "Erkek")
     
-    # Eğitim seviyesi açıklamalı
-    education_labels = {
-        1: "1 - İlkokul Mezunu Değil",
-        2: "2 - İlkokul Mezunu", 
-        3: "3 - Ortaokul Mezunu",
-        4: "4 - Lise Mezunu",
-        5: "5 - Üniversite (Bir Kısım)",
-        6: "6 - Üniversite Mezunu"
-    }
-    education = st.select_slider(
-        "🎓 Eğitim Seviyesi",
-        options=list(education_labels.keys()),
-        value=4,
-        format_func=lambda x: education_labels[x]
-    )
+    # Eğitim seviyesi (1-6 arası)
+    education = st.slider("🎓 Eğitim Seviyesi (1: En Düşük - 6: En Yüksek)", 1, 6, 4)
     
-    # Gelir seviyesi açıklamalı
-    income_labels = {
-        1: "1 - 10.000₺'den az",
-        2: "2 - 10.000₺ - 15.000₺",
-        3: "3 - 15.000₺ - 20.000₺",
-        4: "4 - 20.000₺ - 25.000₺",
-        5: "5 - 25.000₺ - 35.000₺",
-        6: "6 - 35.000₺ - 50.000₺",
-        7: "7 - 50.000₺ - 75.000₺",
-        8: "8 - 75.000₺ ve üzeri"
-    }
-    income = st.select_slider(
-        "💰 Aylık Gelir Seviyesi",
-        options=list(income_labels.keys()),
-        value=5,
-        format_func=lambda x: income_labels[x]
-    )
+    # Gelir seviyesi (1-8 arası)
+    income = st.slider("💰 Gelir Seviyesi (1: En Düşük - 8: En Yüksek)", 1, 8, 5)
 
 with col2:
     st.subheader("🩺 Sağlık Verileri")
@@ -271,6 +247,38 @@ if st.button("🔬 RİSK ANALİZİNİ BAŞLAT", use_container_width=True):
         import time
         time.sleep(0.5)
     
+    # --- MongoDB'ye Tahmin Logla ---
+    input_features_dict = {
+        "HighBP": int(high_bp),
+        "HighChol": int(high_chol),
+        "BMI": bmi,
+        "Smoker": int(smoker),
+        "PhysActivity": int(phys_activity),
+        "GenHlth": gen_hlth,
+        "MentHlth": ment_hlth,
+        "PhysHlth": phys_hlth,
+        "DiffWalk": int(diff_walk),
+        "Sex": sex,
+        "Age": age_display,
+        "Education": education,
+        "Income": income
+    }
+    
+    # Veritabanına kaydet
+    try:
+        log_result = db.log_prediction(input_features_dict, probability)
+        if log_result:
+            st.sidebar.success("✅ Tahmin kaydedildi")
+        else:
+            st.sidebar.warning("⚠️ Kayıt yapılamadı")
+    except Exception as e:
+        st.sidebar.error(f"DB Hatası: {e}")
+    
+    # Yüksek risk uyarısı - Alert sistemi
+    if probability >= 0.6:
+        st.toast("🚨 YÜKSEK RİSKLİ TAHMİN TESPİT EDİLDİ!", icon="🚨")
+        st.balloons()
+    
     st.markdown("### 📊 Analiz Sonuçları")
     
     # Risk skorunu göster
@@ -335,3 +343,187 @@ if st.button("🔬 RİSK ANALİZİNİ BAŞLAT", use_container_width=True):
         Eşik değeri, false negative (hastalığı kaçırma) oranını minimize etmek için
         standart %50'den %30'a düşürülmüştür.
         """)
+
+# --- MONITORING TAB ---
+with tab4:
+    st.markdown("### 🚨 Alert Monitoring Dashboard")
+    st.markdown("Yüksek riskli tahminlerin gerçek zamanlı izlenmesi")
+    
+    # MongoDB bağlantı durumu
+    if not db.is_connected():
+        st.error("⚠️ MongoDB bağlantısı kurulamadı!")
+        st.info("""
+        **MongoDB Kurulumu:**
+        1. MongoDB Community Server'ı indirin: https://www.mongodb.com/try/download/community
+        2. Kurulum sonrası MongoDB servisinin çalıştığından emin olun
+        3. Varsayılan port: 27017
+        
+        Veya MongoDB Atlas (Cloud) kullanabilirsiniz.
+        """)
+    else:
+        st.sidebar.success("✅ MongoDB bağlantısı aktif")
+        
+        # Auto-refresh butonu
+        col_refresh, col_status = st.columns([1, 3])
+        with col_refresh:
+            if st.button("🔄 Yenile", use_container_width=True):
+                st.rerun()
+        with col_status:
+            st.caption(f"Son güncelleme: {datetime.now().strftime('%H:%M:%S')}")
+        
+        st.markdown("---")
+        
+        # --- ÜST METRİKLER ---
+        col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+        
+        total_alerts = db.get_alert_count()
+        today_alerts = db.get_today_alert_count()
+        week_alerts = db.get_alert_count(days=7)
+        total_predictions = db.get_total_predictions()
+        
+        with col_m1:
+            st.metric(
+                label="🚨 Bugünkü Alertler",
+                value=today_alerts,
+                delta=None
+            )
+        
+        with col_m2:
+            st.metric(
+                label="📅 Bu Hafta",
+                value=week_alerts,
+                delta=None
+            )
+        
+        with col_m3:
+            st.metric(
+                label="📊 Toplam Alert",
+                value=total_alerts,
+                delta=None
+            )
+        
+        with col_m4:
+            alert_rate = (total_alerts / total_predictions * 100) if total_predictions > 0 else 0
+            st.metric(
+                label="📈 Alert Oranı",
+                value=f"%{alert_rate:.1f}",
+                delta=None
+            )
+        
+        st.markdown("---")
+        
+        # --- ALERT TREND GRAFİĞİ ---
+        st.markdown("#### 📈 Son 7 Günlük Alert Trendi")
+        
+        trend_data = db.get_alert_trend(days=7)
+        
+        if trend_data:
+            import pandas as pd
+            trend_df = pd.DataFrame(trend_data)
+            trend_df['date'] = pd.to_datetime(trend_df['date'])
+            trend_df = trend_df.set_index('date')
+            
+            st.line_chart(trend_df['count'], use_container_width=True)
+        else:
+            st.info("Henüz trend verisi bulunmuyor. Tahmin yapıldıkça veriler burada görünecek.")
+        
+        st.markdown("---")
+        
+        # --- RİSK DAĞILIMI ---
+        st.markdown("#### 🎯 Risk Dağılımı")
+        
+        risk_dist = db.get_risk_distribution()
+        
+        col_risk1, col_risk2, col_risk3 = st.columns(3)
+        
+        with col_risk1:
+            st.markdown("""
+            <div style="background-color: #0d5016; padding: 20px; border-radius: 10px; text-align: center;">
+                <h2 style="color: #4ade80; margin: 0;">🟢 {}</h2>
+                <p style="color: #86efac; margin: 5px 0 0 0;">Düşük Risk</p>
+            </div>
+            """.format(risk_dist['low']), unsafe_allow_html=True)
+        
+        with col_risk2:
+            st.markdown("""
+            <div style="background-color: #713f12; padding: 20px; border-radius: 10px; text-align: center;">
+                <h2 style="color: #facc15; margin: 0;">🟡 {}</h2>
+                <p style="color: #fde047; margin: 5px 0 0 0;">Orta Risk</p>
+            </div>
+            """.format(risk_dist['medium']), unsafe_allow_html=True)
+        
+        with col_risk3:
+            st.markdown("""
+            <div style="background-color: #7f1d1d; padding: 20px; border-radius: 10px; text-align: center;">
+                <h2 style="color: #f87171; margin: 0;">🔴 {}</h2>
+                <p style="color: #fca5a5; margin: 5px 0 0 0;">Yüksek Risk</p>
+            </div>
+            """.format(risk_dist['high']), unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # --- SON YÜKSEK RİSKLİ TAHMİNLER ---
+        st.markdown("#### 🚨 Son Yüksek Riskli Tahminler (Alertler)")
+        
+        alerts = db.get_alerts(limit=20)
+        
+        if alerts:
+            # Alert listesini tablo olarak göster
+            alert_table_data = []
+            for alert in alerts:
+                features = alert.get('input_features', {})
+                alert_table_data.append({
+                    "Zaman": alert['timestamp'].strftime('%Y-%m-%d %H:%M:%S'),
+                    "Risk Skoru": f"%{alert['risk_score']*100:.1f}",
+                    "Yaş Grubu": features.get('Age', '-'),
+                    "BMI": features.get('BMI', '-'),
+                    "Yüksek Tansiyon": "Evet" if features.get('HighBP') else "Hayır",
+                    "Yüksek Kolesterol": "Evet" if features.get('HighChol') else "Hayır",
+                    "Sigara": "Evet" if features.get('Smoker') else "Hayır"
+                })
+            
+            alert_df = pd.DataFrame(alert_table_data)
+            
+            # Tabloyu göster
+            st.dataframe(
+                alert_df,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "Zaman": st.column_config.TextColumn("⏰ Zaman"),
+                    "Risk Skoru": st.column_config.TextColumn("📊 Risk Skoru"),
+                    "Yaş Grubu": st.column_config.NumberColumn("👤 Yaş Grubu"),
+                    "BMI": st.column_config.NumberColumn("⚖️ BMI", format="%.1f"),
+                    "Yüksek Tansiyon": st.column_config.TextColumn("💓 Yük. Tansiyon"),
+                    "Yüksek Kolesterol": st.column_config.TextColumn("🩸 Yük. Kolesterol"),
+                    "Sigara": st.column_config.TextColumn("🚬 Sigara")
+                }
+            )
+            
+            # Son alert için detaylı bilgi
+            with st.expander("📋 Son Alert Detayları", expanded=False):
+                if alerts:
+                    last_alert = alerts[0]
+                    st.json(last_alert.get('input_features', {}))
+        else:
+            st.info("🎉 Henüz yüksek riskli tahmin (alert) bulunmuyor.")
+            st.caption("Risk skoru %60 ve üzeri olan tahminler burada listelenecektir.")
+        
+        # --- İSTATİSTİKLER ---
+        st.markdown("---")
+        with st.expander("📊 Detaylı İstatistikler", expanded=False):
+            col_stat1, col_stat2 = st.columns(2)
+            
+            with col_stat1:
+                avg_score = db.get_average_risk_score()
+                st.metric("Ortalama Risk Skoru", f"%{avg_score*100:.1f}")
+                
+                avg_score_week = db.get_average_risk_score(days=7)
+                st.metric("Son 7 Gün Ortalama", f"%{avg_score_week*100:.1f}")
+            
+            with col_stat2:
+                st.metric("Toplam Tahmin Sayısı", total_predictions)
+                
+                if total_predictions > 0:
+                    high_risk_rate = (risk_dist['high'] / total_predictions) * 100
+                    st.metric("Yüksek Risk Oranı", f"%{high_risk_rate:.1f}")
