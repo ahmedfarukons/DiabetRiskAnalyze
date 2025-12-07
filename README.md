@@ -12,6 +12,14 @@
 
 ---
 
+### Canlı Demo
+
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Live%20Demo-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://diabetriskanalyze.streamlit.app)
+
+**[Projeyi denemek için tıklayın](https://diabetriskanalyze.streamlit.app)**
+
+---
+
 ### Demo Video
 
 [![Diabetes Risk Analysis Demo](https://img.youtube.com/vi/aPoPtTuUD54/maxresdefault.jpg)](https://youtu.be/aPoPtTuUD54)
